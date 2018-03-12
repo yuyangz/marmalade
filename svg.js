@@ -6,7 +6,7 @@ var placeDots = function(e){
     var x = Math.random() * pic.getAttribute("width");
     var y = Math.random() * pic.getAttribute("height");
     var dot = drawDots(x,y,1,1);
-
+    console.log("hi");
 }
 
 var drawDots = function(x,y, changeX, changeY){
@@ -14,30 +14,33 @@ var drawDots = function(x,y, changeX, changeY){
 
     cl.getRad = function(){
 	return this.getAttribute("r");
-    };
+    }
     cl.getX = function(){
 	return this.getAttribute("cx");
-    };
+    }
     cl.getY  = function(){
 	return this.getAttribute("cy");
-    };
-
+    }
+    
     cl.setColor = function(color){
 	this.setAttribute("fill", color);
-    };
+    }
     cl.setRad = function(rad){
 	this.setAttribute("r", rad);
-    };
+    }
      cl.setX = function(x){
-	 return this.setAttribute("cx", x);
-     };
-    cl.setY = function(){
-	return this.setAttribute("cy", y);
-    };
-
+	  this.setAttribute("cx", x);
+     }
+    cl.setY = function(y){
+	 this.setAttribute("cy", y);
+    }
+    cl.setStroke = function(color){
+	this.setAttribute("stroke", color);
+    }
+    
     cl.display = function(){
 	pic.appendChild(this);
-    };
+    }
 
     cl.bounce = function(e){
 	var x = parseInt(cl.getX());
@@ -52,16 +55,18 @@ var drawDots = function(x,y, changeX, changeY){
 	cl.setY(y+changeY);
 	cl.display();
     }
-
+    
+    console.log("hi2");
     cl.setX(x);
     cl.setY(y);
     cl.setColor("black");
+    cl.setStroke("black");
     cl.setRad(10);
     var id = setInterval(cl.bounce, 50);
     array.push(id);
 
     return cl;
-};
+}
 
 var clear = function(){
     pic.innerHTML = "";
