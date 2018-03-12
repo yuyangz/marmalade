@@ -6,14 +6,10 @@ var placeDots = function(e){
     var x = Math.random() * pic.getAttribute("width");
     var y = Math.random() * pic.getAttribute("height");
     var dot = drawDots(x,y,1,1);
-    console.log("hi");
 }
 
 var drawDots = function(x,y, changeX, changeY){
     var cl = document.createElementNS("http://w3.org/2000/svg", "circle");
-    cl.display = function(e){
-	pic.appendChild(this);
-    }
     
     cl.getRad = function(){
 	return this.getAttribute("r");
@@ -40,6 +36,10 @@ var drawDots = function(x,y, changeX, changeY){
     cl.setStroke = function(color){
 	this.setAttribute("stroke", color);
     }
+
+     cl.display = function(){
+	pic.appendChild(this);
+     }
     
     cl.bounce = function(e){
 	var x = parseInt(cl.getX());
@@ -50,8 +50,8 @@ var drawDots = function(x,y, changeX, changeY){
 	if( y <= 0 || y >= pic.getAttribute("height")){
 	    changeY = changeY * -1;
 	}
-	console.log(y);
-	console.log(changeY);
+//	console.log(y);
+//	console.log(changeY);
 	
 	//console.log(x);
 	//console.log(changeX);
@@ -60,13 +60,11 @@ var drawDots = function(x,y, changeX, changeY){
 	cl.display()
     }
     
-    console.log("hi2");
     cl.setX(x);
     cl.setY(y);
     cl.setColor("pink");
     //cl.setStroke("black");
     cl.setRad(10);
-    cl.display();
     var id = setInterval(cl.bounce, 50);
     array.push(id);
     return cl;
