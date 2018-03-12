@@ -11,7 +11,10 @@ var placeDots = function(e){
 
 var drawDots = function(x,y, changeX, changeY){
     var cl = document.createElementNS("http://w3.org/2000/svg", "circle");
-
+    cl.display = function(e){
+	pic.appendChild(this);
+    }
+    
     cl.getRad = function(){
 	return this.getAttribute("r");
     }
@@ -28,20 +31,16 @@ var drawDots = function(x,y, changeX, changeY){
     cl.setRad = function(rad){
 	this.setAttribute("r", rad);
     }
-     cl.setX = function(x){
-	  this.setAttribute("cx", x);
-     }
+    cl.setX = function(x){
+	this.setAttribute("cx", x);
+    }
     cl.setY = function(y){
-	 this.setAttribute("cy", y);
+	this.setAttribute("cy", y);
     }
     cl.setStroke = function(color){
 	this.setAttribute("stroke", color);
     }
     
-    cl.display = function(){
-	pic.appendChild(this);
-    }
-
     cl.bounce = function(e){
 	var x = parseInt(cl.getX());
 	var y = parseInt(cl.getY());
@@ -49,22 +48,27 @@ var drawDots = function(x,y, changeX, changeY){
 	    changeX = changeX * -1;
 	}
 	if( y <= 0 || y >= pic.getAttribute("height")){
-	    changeY == changeY * -1;
+	    changeY = changeY * -1;
 	}
+	console.log(y);
+	console.log(changeY);
+	
+	//console.log(x);
+	//console.log(changeX);
 	cl.setX(x+changeX);
 	cl.setY(y+changeY);
-	cl.display();
+	cl.display()
     }
     
     console.log("hi2");
     cl.setX(x);
     cl.setY(y);
-    cl.setColor("black");
-    cl.setStroke("black");
+    cl.setColor("pink");
+    //cl.setStroke("black");
     cl.setRad(10);
+    cl.display();
     var id = setInterval(cl.bounce, 50);
     array.push(id);
-
     return cl;
 }
 
