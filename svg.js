@@ -1,100 +1,74 @@
 var pic = document.getElementById("vimage");
+var clear_button = document.getElementById("clear");
+var array = [];
 
-var clicked = function(e){
-    if (e.toElement == this){
-        var d0t = drawDot(e.offsetX, e.offsetY, 50, "pink" );
-	//d0t.display();
-	e.stopPropagation();
-    }
+var placeDots = function(e){
+    var x = Math.random() * pic.getAttribute("width");
+    var y = Math.random() * pic.getAttribute("height");
+    var dot = drawDots(x,y,1,1);
+
 }
 
-var left = true;
-var down = true;
+var drawDots = function(x,y, changeX, changeY){
+    var cl = document.createElementNS("http://w3.org/2000/svg", "circle");
 
-var drawDot = function(xc,yc,rad,color){
+    cl.getRad = function(){
+	return this.getAttribute("r");
+    };
+    cl.getX = function(){
+	return this.getAttribute("cx");
+    };
+    cl.getY  = function(){
+	return this.getAttribute("cy");
+    };
 
-    id = requestAnimationFrame(drawDot);
-    
-    var dot = {
-	cl : document.createElementNS(
-	    "http://www.w3.org/2000/svg",
-	    "circle"),
-	
-	xcor: function(xc){
-	    this.cl.setAttribute("cx", xc);
-	},
-	ycor: function(yc){
-	    this.cl.setAttribute("cy", yc);
-	},
-	rad: function(rad){
-	    this.cl.setAttribute("r", rad);
-	},
-	color: function(color){
-	    this.cl.setAttribute("fill",color)
-	},
+    cl.setColor = function(color){
+	this.setAttribute("fill", color);
+    };
+    cl.setRad = function(rad){
+	this.setAttribute("r", rad);
+    };
+     cl.setX = function(x){
+	 return this.setAttribute("cx", x);
+     };
+    cl.setY = function(){
+	return this.setAttribute("cy", y);
+    };
 
-	
-	display: function(){
-	    pic.appendChild(this.cl);
-	},
+    cl.display = function(){
+	pic.appendChild(this);
+    };
 
-	
-	xsee: function(){
-	    return this.cl.getAttribute("cx");
-	},
-	ysee: function(){
-	    return this.cl.getAttribute("cy");
-	},
-	radsee: function(){
-	    return this.cl.getAttribute("r");
-	},
-	colorsee: function(){
-	    return this.cl.getAttribute("fill");
-	},
-		    
-
-	wall: function(){
-
-	    x = parseInt(this.xsee())
-	    y = parseInt(this.ysee())
-	    
-	    if(x < 1 || x > 450){
-		console.log(x)
-		console.log(left)
-		left = !left }
-	    
-	    if ( y < 1 || y > 450 ) {
-		down = !down }
-
-	    if(left){x++;}
-	    else{x--;}
-
-	    if(down){y++;}
-	    else{y--;}
-	    
-	    //console.log(x)
-	    //console.log(y)
-	    
-	    this.xcor( x );
-	    this.ycor( y );
-	    this.display();
+    cl.bounce = function(e){
+	var x = parseInt(cl.getX());
+	var y = parseInt(cl.getY());
+	if (x <= 0 || x >= pic.getAttribute("width")){
+	    changeX = changeX * -1;
 	}
-	
+	if( y <= 0 || y >= pic.getAttribute("height")){
+	    changeY == changeY * -1;
+	}
+	cl.setX(x+changeX);
+	cl.setY(y+changeY);
+	cl.display();
     }
-    
-    dot.xcor(xc);
-    dot.ycor(yc);
-    dot.rad(rad);
-    dot.color(color);
-    //dot.display()
-    dot.wall();
+
+    cl.setX(x);
+    cl.setY(y);
+    cl.setColor("black");
+    cl.setRad(10);
+    var id = setInterval(cl.bounce, 50);
+    array.push(id);
+
+    return cl;
+};
+
+var clear = function(){
+    pic.innerHTML = "";
 }
 
-var clear = function(e){
-    pic.innerHTML="";   
-}
+pic.addEventListener("click", placeDots);
+clear_button.addEventListener("click", clear);
 
-pic.addEventListener("click", clicked);
-
-c = document.getElementById("clr")
-c.addEventListener("click",clear)
+  
+	
